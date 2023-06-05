@@ -1,0 +1,57 @@
+<c:FragmentDefinition xmlns="sap.m" xmlns:c="sap.ui.core" xmlns:f="sap.f">
+    <f:GridContainer width="100%" class="sapUiSmallMarginBottom">
+        <f:layout>
+            <f:GridContainerSettings rowSize="1rem" columnSize="calc(25% - 9px)" columns="4" gap="12px" />
+        </f:layout>
+        <f:items>
+            <f:Card height="100%" busy="{LocalModel>/oMaintain/oFlags/CardContact}" busyIndicatorDelay="0" class="showOnPrint basis-50">
+                <f:content>
+                    <c:Fragment fragmentName="ZCRMOV.view.fragment.Cards.Card_Contact" type="XML" />
+                </f:content>
+                <f:layoutData>
+                    <f:GridContainerItemLayoutData minRows="9" columns="1" />
+                </f:layoutData>
+            </f:Card>
+            <f:Card height="100%" busy="{LocalModel>/oMaintain/oFlags/CardDoctor}" busyIndicatorDelay="0" class="showOnPrint basis-50">
+                <f:content>
+                    <c:Fragment fragmentName="ZCRMOV.view.fragment.Cards.Card_Doctor" type="XML" />
+                </f:content>
+                <f:layoutData>
+                    <f:GridContainerItemLayoutData minRows="9" columns="1" />
+                </f:layoutData>
+            </f:Card>
+            <f:Card height="100%" busy="{LocalModelA2>/oMaintain/oFlags/CardPayment}" busyIndicatorDelay="0">
+                <f:content>
+                    <c:Fragment fragmentName="ZCRMOV.view.fragment.Cards.Card_Payment" type="XML" />
+                </f:content>
+                <f:layoutData>
+                    <f:GridContainerItemLayoutData minRows="9" columns="1" />
+                </f:layoutData>
+            </f:Card>
+            <f:Card class="CommonActions-Card" height="100%">
+                <f:content>
+                    <c:Fragment fragmentName="ZCRMOV.view.fragment.Cards.Card_CommonActions" type="XML" />
+                </f:content>
+                <f:layoutData>
+                    <f:GridContainerItemLayoutData minRows="9" columns="1" />
+                </f:layoutData>
+            </f:Card>
+            <f:Card height="100%" busy="{LocalModel>/oMaintain/oFlags/CardFamily}" busyIndicatorDelay="0">
+                <f:content>
+                    <c:Fragment class="showOnPrint basis-60" fragmentName="ZCRMOV.view.fragment.Cards.Card_Family" type="XML" />
+                </f:content>
+                <f:layoutData>
+                    <f:GridContainerItemLayoutData minRows="16" columns="1" />
+                </f:layoutData>
+            </f:Card>
+            <f:Card height="100%" busy="{LocalModel>/oMaintain/oFlags/CardEvents}" busyIndicatorDelay="0">
+                <f:content>
+                    <c:Fragment fragmentName="ZCRMOV.view.fragment.Cards.Card_Events" type="XML" />
+                </f:content>
+                <f:layoutData>
+                    <f:GridContainerItemLayoutData minRows="16" columns="3" />
+                </f:layoutData>
+            </f:Card>
+        </f:items>
+    </f:GridContainer>
+</c:FragmentDefinition>

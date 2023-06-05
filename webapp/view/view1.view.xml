@@ -1,0 +1,13 @@
+<mvc:View controllerName="project1.controller.view1" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" displayBlock="true" height="100%" busyIndicatorDelay="0">
+    <Shell id="shell">
+        <App id="app">
+            <pages>
+                <Page id="page" title="{i18n>title}">
+                    <content>
+                        <Button text="Press" press="onClick" id="amit" />
+                    </content>
+                </Page>
+            </pages>
+        </App>
+    </Shell>
+</mvc:View>

@@ -1,0 +1,38 @@
+<mvc:View controllerName="project1.controller.myApp" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+        <content>
+            <Table id="s" ariaLabelledBy="title" noDataText="אין מידע זמין להצגה" items="{flightsModel>/results}" busy="{viewModel>/busy}" busyIndicatorDelay="10">
+                <columns>
+                    <Column id="a" width="11rem">
+                        <Text text="Airline" wrapping="false" />
+                    </Column>
+                    <Column id="x" width="11rem">
+                        <Text text="Date" wrapping="false" id="xsss" />
+                    </Column>
+                    <Column id="b" width="11rem">
+                        <Text text="From" wrapping="false" id="xaas" />
+                    </Column>
+                    <Column id="c" width="11rem">
+                        <Text text="To" wrapping="false" id="xaa" />
+                    </Column>
+                    <Column id="d" width="11rem">
+                        <Text text="Flight Details" wrapping="false" id="aa" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <Text text="{flightsModel>FlightCarrier/CARRNAME}" />
+                            <Text text="{path: 'flightsModel>fldate' , type:'sap.ui.model.type.Date', formatOptions: { pattern : 'dd.MM.yyyy'}}" />
+                            <Text text="{flightsModel>flightDetails/cityFrom} ({flightsModel>flightDetails/airportFrom})" class="textTransform" />
+                            <Text text="{flightsModel>flightDetails/cityTo} ({flightsModel>flightDetails/airportTo})" class="textTransform" />
+                            <Button text="Flight Details" press="onFlightClick" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+            <Button text="see more" press="addMore" id="bu" />
+            <Button text="nav to graph" press="navToGraph" id="go" />
+        </content>
+    </Page>
+</mvc:View>

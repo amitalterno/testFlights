@@ -1,0 +1,332 @@
+<mvc:View
+    controllerName="project1.controller.piTest"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+    xmlns:viz.data="sap.viz.ui5.data"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:mic="sap.suite.ui.microchart"
+    xmlns:t="sap.ui.table"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <Page id="page" title="{i18n>title}">
+        <content>
+            <VBox busy="{viewModel>/busy}">
+                <Button text="nav to graph" press="navToGraph" id="go" />
+                <HBox class="filter-row" alignItems="Center">
+                    <HBox class="filters-box" id="filters-box">
+                        <Button text="Today " class="filter-buttons today-button filter-buttons" press="onFilterRow($event,'Today')">
+                            <customData>
+                                <core:CustomData key="Active" value="Selected" writeToDom="{= ${viewModel>/SelectedFilter} === 'Today' }" />
+                            </customData>
+                        </Button>
+
+                        <Button text="Yesterday" class="filter-buttons" press="onFilterRow($event,'Yesterday')">
+                            <customData>
+                                <core:CustomData key="Active" value="Selected" writeToDom="{= ${viewModel>/SelectedFilter} === 'Yesterday' }" />
+                            </customData>
+                        </Button>
+
+                        <ComboBox id="dailyComboBox" items="{viewModel>/last7Days/days}" selectedKey="{/selectedItem}" class="filter-combo-boxes" placeholder="{viewModel>/SelectedDaily}" selectionChange="onFilterRow($event,'Daily')">
+                            <core:Item key="{key}" text="{viewModel>day}. {viewModel>date}" />
+                            <customData>
+                                <core:CustomData key="Active" value="Selected" writeToDom="{= ${viewModel>/SelectedFilter} === 'Daily' }" />
+                            </customData>
+                        </ComboBox>
+
+                        <ComboBox id="weeklyComboBox" items="{viewModel>/status/res}" class="filter-combo-boxes" placeholder="{viewModel>/SelectedWeekly}" selectionChange="onFilterRow($event,'Weekly')">
+                            <core:Item key="{key}" text="{viewModel>status}" />
+                            <customData>
+                                <core:CustomData key="Active" value="Selected" writeToDom="{= ${viewModel>/SelectedFilter} === 'Weekly' }" />
+                            </customData>
+                        </ComboBox>
+
+                        <Button text="{viewModel>/SelectedMonth}" press=".openMonthlySelection" icon="sap-icon://dropdown" iconFirst="false" class="filter-buttons">
+                            <customData>
+                                <core:CustomData key="Active" value="Selected" writeToDom="{= ${viewModel>/SelectedFilter} === 'Monthly' }" />
+                            </customData>
+                        </Button>
+                        <DatePicker id="Monthly" displayFormat="MM-y" change="handleMonthChange" class="sapUiSmallMarginBottom" visible="false" maxDate="{viewModel>/today}" minDate="{viewModel>/minDate}" />
+
+                        <Button text="{viewModel>/SelectedYear}" press=".openAnnuallySelection" icon="sap-icon://dropdown" iconFirst="false" class="filter-buttons">
+                            <customData>
+                                <core:CustomData key="Active" value="Selected" writeToDom="{= ${viewModel>/SelectedFilter} === 'Annually' }" />
+                            </customData>
+                        </Button>
+                        <DatePicker id="Annually" displayFormat="yyyy" change="handleYearChange" class="sapUiSmallMarginBottom" visible="false" maxDate="{viewModel>/today}" minDate="{viewModel>/minDate}" />
+
+                        <Button text="{viewModel>/SelectedCustom}" press=".openDateRangeSelection" icon="sap-icon://dropdown" iconFirst="false" class="filter-buttons custom-button">
+                            <customData>
+                                <core:CustomData key="Active" value="Selected" writeToDom="{= ${viewModel>/SelectedFilter} === 'Custom'}" />
+                            </customData>
+                        </Button>
+                        <DateRangeSelection id="Custom" change=".changeDateHandler" visible="false" maxDate="{viewModel>/today}" minDate="{viewModel>/minDate}" />
+                    </HBox>
+                    <ToolbarSeparator class="vl" />
+                    <HBox id="filter-combox">
+                        <MultiComboBox placeholder="All Interface" id="interfacesBox" class="combo-boxes" selectionChange="handleSelectionChange" selectionFinish="handleSelectionFinish" width="224px" items="{viewModel>/status/res}">
+                            <core:Item key="{viewModel>status}" text="{viewModel>status}" />
+                        </MultiComboBox>
+                        <MultiComboBox placeholder="All Status" id="statusBox" class="combo-boxes" selectionChange="handleSelectionChange" selectionFinish="handleSelectionFinish" width="224px" items="{viewModel>/status/res}">
+                            <core:Item key="{viewModel>status}" text="{viewModel>status}" />
+                        </MultiComboBox>
+                        <!-- only in pip dash -->
+                        <MultiComboBox placeholder="All Channels" id="channelBox" class="combo-boxes" selectionChange="handleSelectionChange" selectionFinish="handleSelectionFinish" width="224px" items="{viewModel>/status/res}">
+                            <core:Item key="{viewModel>status}" text="{viewModel>status}" />
+                        </MultiComboBox>
+                    </HBox>
+                    <ToolbarSeparator class="vl" />
+                    <core:Icon color="#00b5d3" src="sap-icon://refresh" class="refresh-icon" press="refresh" />
+                    <VBox id="date-Area">
+                        <Text text="Last Data Updated" class="updtaed-text" />
+                        <Text text="{viewModel>/date} {viewModel>/time}" class="updtaed-text" />
+                    </VBox>
+                    <ToolbarSeparator class="vl" />
+                    <HBox class="action-select">
+                        <ActionSelect id="select" items="{viewModel>/dashboards/res}" class="navigate-select" change="goToDashboard">
+                            <items>
+                                <core:Item text="{viewModel>name}" key="{viewModel>path}" />
+                            </items>
+                        </ActionSelect>
+                        <core:Icon color="#00b5d3" src=" sap-icon://navigation-down-arrow" class="arrow-icon" />
+                    </HBox>
+                </HBox>
+                <HBox>
+                    <VBox class="messages-box" width="42.25rem">
+                        <HBox class="messages-monitoring">
+                            <Title text="Message Monitoring By Status And Interface" class="messages-title" width="100%" />
+                            <Switch customTextOn="Show" customTextOff="Hide" class="mySwitch" change="showMap">
+                                <layoutData>
+                                    <FlexItemData growFactor="1" />
+                                </layoutData>
+                            </Switch>
+                        </HBox>
+                        <Text class="hl" />
+                        <HBox class="messages-monitoring-content">
+                            <VBox alignItems="Center" class="margin-top3">
+                                <Text text="{viewModel>/messageCounter}" class="message-counter" />
+                                <Text text="Messages" class="message-text" />
+                            </VBox>
+                            <HBox class="messages-graphs" visible="{= !${viewModel>/showMap}}">
+                                <mic:ColumnMicroChart size="L" class="sapUiSmallMargin monitor-charts" allowColumnLabels="true">
+                                    <mic:columns>
+                                        <mic:ColumnMicroChartData value="36" label="Success" color="#189e4e" />
+                                        <mic:ColumnMicroChartData value="27" label="Error" color="#bb0000" press=".onSortTable" />
+                                        <mic:ColumnMicroChartData value="9" label="Schedule" color="#f9bc45" />
+                                        <mic:ColumnMicroChartData value="8" label="Terminated" color="#a2a2a2" />
+                                    </mic:columns>
+                                </mic:ColumnMicroChart>
+                            </HBox>
+                            <HBox class="messages-graphs" visible="{viewModel>/showMap}">
+                                <viz:Popover id="idPopOver" />
+                                <viz:VizFrame id="idVizFrame" uiConfig="{applicationSet:'fiori'}" height='100%' width="100%" vizType='heatmap'>
+                                    <viz:dataset>
+                                        <viz.data:FlattenedDataset data="{/d/results}">
+                                            <viz.data:dimensions>
+                                                <viz.data:DimensionDefinition name="SEATSMAX" value="{SEATSMAX}" />
+                                                <viz.data:DimensionDefinition name="carrid" value="{carrid}" />
+                                            </viz.data:dimensions>
+                                            <viz.data:measures>
+                                                <viz.data:MeasureDefinition name="PRICE" value="{PRICE}" />
+                                            </viz.data:measures>
+                                        </viz.data:FlattenedDataset>
+                                    </viz:dataset>
+                                    <viz:feeds>
+                                        <viz.feeds:FeedItem uid="color" type="Measure" values="PRICE" />
+                                        <viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="carrid" />
+                                        <viz.feeds:FeedItem uid="categoryAxis2" type="Dimension" values="SEATSMAX" />
+                                    </viz:feeds>
+                                </viz:VizFrame>
+                            </HBox>
+                        </HBox>
+                    </VBox>
+                    <VBox class="messages-box" width="37rem">
+                        <HBox class="messages-monitoring">
+                            <Title text="Certificate Monitoring (3) " class="messages-title" width="100%" />
+                            <ObjectStatus class="live-status" text="Live" inverted="true" />
+                            <core:Icon color="#00b5d3" src="sap-icon://download" class="download-icon" press="onTableRowPress" />
+                        </HBox>
+                        <Text class="hl" />
+                        <VBox class="small-table-box">
+                            <t:Table id="table1" rows="{flightsModel>/results}" class="certificate-table" busy="{viewModel>/busy}" enableCellFilter="true" enableSelectAll="false" ariaLabelledBy="title" selectionMode="None">
+                                <t:columns>
+                                    <t:Column width="1.9rem">
+                                        <t:template>
+                                            <core:Icon color="#002846" src=" sap-icon://circle-task-2" class="small-dot" />
+                                        </t:template>
+                                    </t:Column>
+                                    <t:Column width="7.5rem">
+                                        <Label text="KeyStore" />
+                                        <t:template>
+                                            <HBox class="justify-start">
+                                                <Text text="{flightsModel>PRICE}" wrapping="false" />
+                                            </HBox>
+                                        </t:template>
+                                    </t:Column>
+                                    <t:Column width="7.5rem">
+                                        <Label text="Expiry Date" />
+                                        <t:template>
+                                            <HBox class="space-around expiry-date">
+                                                <Text text="{path: 'flightsModel>fldate' , type:'sap.ui.model.type.Date', formatOptions: { pattern : 'dd/MM/yyyy'}}" wrapping="false" />
+                                            </HBox>
+                                        </t:template>
+                                    </t:Column>
+                                </t:columns>
+                            </t:Table>
+                            <!-- <Table id="table1" class="certificate-table" ariaLabelledBy="title" items="{flightsModel>/results}" busy="{viewModel>/busy}" busyIndicatorDelay="10">
+                                <columns>
+                                    <Column width="1.9rem" />
+                                    <Column width="7.5rem">
+                                        <Text text="Key Store" wrapping="false" />
+                                    </Column>
+                                    <Column width="7.5rem">
+                                        <Text text="Expiry Date" wrapping="false" />
+                                    </Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem press="handlePopoverPress">
+                                        <cells>
+                                            <core:Icon color="#002846" src=" sap-icon://circle-task-2" class="small-dot" />
+                                            <Text text="{flightsModel>FlightCarrier/CARRNAME}" />
+                                            <HBox class="space-around expiry-date">
+                                                <Text text="{path: 'flightsModel>fldate' , type:'sap.ui.model.type.Date', formatOptions: { pattern : 'dd.MM.yyyy'}}" />
+                                            </HBox>
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table> -->
+                        </VBox>
+                    </VBox>
+                    <VBox class="messages-box" width="32.7rem">
+                        <HBox class="messages-monitoring">
+                            <Title text="Queue Monitoring (8) " class="messages-title" width="100%" />
+                            <ObjectStatus class="live-status" text="Live" inverted="true" />
+                            <core:Icon color="#00b5d3" src="sap-icon://download" class="download-icon" />
+                        </HBox>
+                        <Text class="hl" />
+                        <VBox class="small-table-box">
+                            <t:Table id="table2" rows="{flightsModel>/results}" busy="{viewModel>/busy}" enableCellFilter="true" enableSelectAll="false" ariaLabelledBy="title" class="queue-table" selectionMode="None">
+                                <t:columns>
+                                    <t:Column width="6rem">
+                                        <Label text="Queue Name" />
+                                        <t:template>
+                                            <HBox class="justify-start">
+                                                <Text text="{flightsModel>PRICE}" wrapping="false" />
+                                            </HBox>
+                                        </t:template>
+                                    </t:Column>
+                                    <t:Column width="13rem">
+                                        <Label text="No. Of Entries" />
+                                        <t:template>
+                                            <mic:ComparisonMicroChart colorPalette="#002846" size="Responsive" maxValue="1000" minValue="0">
+                                                <mic:data>
+                                                    <mic:ComparisonMicroChartData value="{flightsModel>SEATSMAX}" />
+                                                </mic:data>
+                                            </mic:ComparisonMicroChart>
+                                        </t:template>
+                                    </t:Column>
+                                </t:columns>
+                            </t:Table>
+                        </VBox>
+                    </VBox>
+                </HBox>
+                <VBox class="table-box">
+                    <t:Table id="table" rows="{flightsModel>/results}" busy="{viewModel>/busy}" enableSelectAll="false" visibleRowCount="12" selectionMode="None" enableCellFilter="true" ariaLabelledBy="title" class="table-main">
+                        <t:extension>
+                            <OverflowToolbar style="Clear" height="2.875rem" class="table-main-row">
+                                <Title id="title" text="Message Detailed View ({viewModel>/messageCounter})" class="table-title" />
+                                <ToolbarSpacer />
+                                <SearchField placeholder="Search Messages" liveChange="onSearch" width="28rem" class="search-field" />
+                                <ToolbarSeparator visible="false" />
+                                <core:Icon alt="downlod" color="#00b5d3" src="sap-icon://download" class="download-icon" press="exportToExcel" />
+                            </OverflowToolbar>
+                        </t:extension>
+                        <t:columns>
+                            <t:Column width="11rem">
+                                <Label text="Sender Component" />
+                                <t:template>
+                                    <HBox class="justify-start">
+                                        <core:Icon color="#002846" src="sap-icon://it-instance" class="margin-right1" />
+                                        <Text text="{flightsModel>FlightCarrier/CARRNAME}" wrapping="false" />
+                                    </HBox>
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="11rem">
+                                <Label text="Reciver Component" />
+                                <t:template>
+                                    <HBox class="justify-start">
+                                        <core:Icon color="#002846" src="sap-icon://arrow-right" class="margin-right1" />
+                                        <Text text="{flightsModel>flightDetails/cityTo}" wrapping="false" />
+                                    </HBox>
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="21.5rem">
+                                <Label text="Interface" />
+                                <t:template>
+                                    <Text text="{flightsModel>PRICE}" wrapping="false" />
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="21.5rem">
+                                <Label text="Interface Space" />
+                                <t:template>
+                                    <HBox>
+                                        <Text text="{flightsModel>flightDetails/cityFrom}" wrapping="false" />
+                                    </HBox>
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="12.5rem">
+                                <Label text="Date" />
+                                <t:template>
+                                    <HBox>
+                                        <Text text="{path: 'flightsModel>fldate' , type:'sap.ui.model.type.Date', formatOptions: { pattern : 'dd/MM/yyyy'}}" wrapping="false" />
+                                    </HBox>
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="9rem" sortProperty="SEATSMAX">
+                                <Label text="Success" />
+                                <t:template>
+                                    <mic:ComparisonMicroChart colorPalette="#189e4e" size="Responsive" maxValue="1000" minValue="0">
+                                        <mic:data>
+                                            <mic:ComparisonMicroChartData value="{flightsModel>SEATSMAX}" />
+                                        </mic:data>
+                                    </mic:ComparisonMicroChart>
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="9rem" sortProperty="SEATSMAX">
+                                <Label text="Error" />
+                                <t:template>
+                                    <mic:ComparisonMicroChart colorPalette="#bb0000" size="Responsive" maxValue="1000" minValue="0">
+                                        <mic:data>
+                                            <mic:ComparisonMicroChartData value="{flightsModel>SEATSMAX}" />
+                                        </mic:data>
+                                    </mic:ComparisonMicroChart>
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="9rem" sortProperty="SEATSMAX">
+                                <Label text="Schedule" />
+                                <t:template>
+                                    <mic:ComparisonMicroChart colorPalette="#f9bc45" size="Responsive" maxValue="1000" minValue="0">
+                                        <mic:data>
+                                            <mic:ComparisonMicroChartData value="{flightsModel>SEATSMAX}" />
+                                        </mic:data>
+                                    </mic:ComparisonMicroChart>
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="9rem" sortProperty="SEATSMAX">
+                                <Label text="Cancelled" />
+                                <t:template>
+                                    <mic:ComparisonMicroChart colorPalette="#a2a2a2" size="Responsive" maxValue="1000" minValue="0">
+                                        <mic:data>
+                                            <mic:ComparisonMicroChartData value="{flightsModel>SEATSMAX}" />
+                                        </mic:data>
+                                    </mic:ComparisonMicroChart>
+                                </t:template>
+                            </t:Column>
+                        </t:columns>
+                    </t:Table>
+                </VBox>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

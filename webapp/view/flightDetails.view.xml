@@ -1,0 +1,63 @@
+<mvc:View xmlns="sap.m" controllerName="project1.controller.flightDetails" xmlns:f="sap.f" xmlns:card="sap.f.cards" xmlns:mvc="sap.ui.core.mvc" displayBlock="true">
+    <Page>
+        <content>
+            <VBox class="sapUiContentPadding" width="100%" busy="{viewModel>/busy}" busyIndicatorDelay="10" alignItems="Center">
+                <f:Card width="400px">
+                    <f:header>
+                        <card:Header title="Flight Details" subtitle="" iconSrc="sap-icon://flight" />
+                    </f:header>
+                    <f:content>
+                        <VBox>
+                            <HBox class="fromTo" width="100%">
+                                <VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+                                    <Title level="H3" text="Flight Date" />
+                                    <Text text="{path: 'flightDetailsModel>/fldate' , type:'sap.ui.model.type.Date', formatOptions: { pattern : 'dd.MM.yyyy'}}" />
+                                </VBox>
+                                <VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+                                    <Title level="H3" text="Airline" />
+                                    <Text text="{flightDetailsModel>/FlightCarrier/CARRNAME}" />
+                                </VBox>
+                            </HBox>
+                            <HBox class="fromTo" width="100%">
+                                <VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+                                    <Title level="H3" text="From" />
+                                    <Text text="{flightDetailsModel>/flightDetails/cityFrom} ({flightDetailsModel>/flightDetails/airportFrom})" class="textTransform" />
+                                </VBox>
+                                <VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+                                    <Title level="H3" text="Airline" />
+                                    <Text text="{flightDetailsModel>/FlightCarrier/CARRNAME}" />
+                                </VBox>
+                            </HBox>
+                            <HBox class="fromTo" width="100%" alignItems="Center">
+                                <VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+                                    <Title level="H3" text="From" />
+                                    <Text text="{flightDetailsModel>/flightDetails/cityFrom} ({flightDetailsModel>/flightDetails/airportFrom})" class="textTransform" />
+                                </VBox>
+                                <VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+                                    <Title level="H3" text="To" />
+                                    <Text text="{flightDetailsModel>/flightDetails/cityTo} ({flightDetailsModel>/flightDetails/airportTo})" class="textTransform" />
+                                </VBox>
+                            </HBox>
+                            <HBox class="fromTo" width="100%" alignItems="Center">
+                                <VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+                                    <Title level="H3" text="Departure Time" />
+                                    <Text text="{flightDetailsModel>/departure}" />
+                                </VBox>
+                                <VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+                                    <Title level="H3" text="Arrival Time" />
+                                    <Text text="{flightDetailsModel>/arrival}" />
+                                </VBox>
+                            </HBox>
+                            <HBox class="fromTo" width="100%" alignItems="Center">
+                                <VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+                                    <Title level="H3" text="Price" />
+                                    <Text text="{flightDetailsModel>/PRICE} {flightDetailsModel>/CURRENCY}" />
+                                </VBox>
+                            </HBox>
+                        </VBox>
+                    </f:content>
+                </f:Card>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

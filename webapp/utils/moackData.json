@@ -1,0 +1,74 @@
+[
+    {
+        "__metadata": {
+            "uri": "http://HierarchyTestservice/odata/tree.xsodata/orgHierarchy('1001')",
+            "type": "HierarchyTestservice.odata.tree.orgHierarchyType"
+        },
+        "HIERARCHY_NODE": "1001",
+        "DESCRIPTION": "wnMLJExx4Gv3L5GKGt2p",
+        "LEVEL": 0,
+        "PARENT_NODE": 1000,
+        "DRILLDOWN_STATE": "expanded",
+        "toChildren": {
+            "__deferred": {
+                "uri": "http://HierarchyTestservice/odata/tree.xsodata/orgHierarchy('1001')/toChildren"
+            }
+        },
+        "MAGNITUDE": 27,
+        "SERVER_INDEX": 0
+    },
+    {
+        "__metadata": {
+            "uri": "http://HierarchyTestservice/odata/tree.xsodata/orgHierarchy('1002')",
+            "type": "HierarchyTestservice.odata.tree.orgHierarchyType"
+        },
+        "HIERARCHY_NODE": "1002",
+        "DESCRIPTION": "sFtnyzn8vst1CGIKs1n0",
+        "LEVEL": 1,
+        "PARENT_NODE": "1001",
+        "DRILLDOWN_STATE": "expanded",
+        "toChildren": {
+            "__deferred": {
+                "uri": "http://HierarchyTestservice/odata/tree.xsodata/orgHierarchy('1002')/toChildren"
+            }
+        },
+        "MAGNITUDE": 6,
+        "SERVER_INDEX": 1
+    },
+    {
+        "__metadata": {
+            "uri": "http://HierarchyTestservice/odata/tree.xsodata/orgHierarchy('1003')",
+            "type": "HierarchyTestservice.odata.tree.orgHierarchyType"
+        },
+        "HIERARCHY_NODE": "1003",
+        "DESCRIPTION": "y5zDyHrxx8ExLFupxsqw",
+        "LEVEL": 2,
+        "PARENT_NODE": "1002",
+        "DRILLDOWN_STATE": "collapsed",
+        "toChildren": {
+            "__deferred": {
+                "uri": "http://HierarchyTestservice/odata/tree.xsodata/orgHierarchy('1003')/toChildren"
+            }
+        },
+        "MAGNITUDE": 0,
+        "SERVER_INDEX": 2
+    },
+    {
+        "__metadata": {
+            "uri": "http://HierarchyTestservice/odata/tree.xsodata/orgHierarchy('1004')",
+            "type": "HierarchyTestservice.odata.tree.orgHierarchyType"
+        },
+        "HIERARCHY_NODE": "1004",
+        "DESCRIPTION": "IKJ4GEEEFDsGtJptwqKw",
+        "LEVEL": 2,
+        "PARENT_NODE": "1002",
+        "DRILLDOWN_STATE": "collapsed",
+        "toChildren": {
+            "__deferred": {
+                "uri": "http://HierarchyTestservice/odata/tree.xsodata/orgHierarchy('1004')/toChildren"
+            }
+        },
+        "MAGNITUDE": 0,
+        "SERVER_INDEX": 3
+    }
+]

@@ -1,0 +1,164 @@
+{
+  "_version": "1.48.0",
+  "sap.app": {
+    "id": "project1",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{Amit}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:basic",
+      "version": "1.8.4",
+      "toolsId": "53a985e4-0131-4ef1-91cc-3ea4b60a0c36"
+    },
+    "dataSources": {
+      "flightService": {
+        "uri": "/sap/opu/odata/IWFND/RMTSAMPLEFLIGHT/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "2.0"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.71.40",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.f": {},
+        "sap.suite.ui.generic.template": {},
+        "sap.ui.comp": {},
+        "sap.ui.generic.app": {},
+        "sap.ui.table": {},
+        "sap.ushell": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "project1.i18n.i18n"
+        }
+      },
+      "ODataModel": {
+        "type": "sap.ui.model.odata.v2.ODataModel",
+        "settings": {
+          "defaultOperationMode": "Server",
+          "defaultBindingMode": "TwoWay",
+          "defaultCountMode": "Request"
+        },
+        "dataSource": "flightService",
+        "preload": true
+      },
+      "flightsModel": {
+        "type": "sap.ui.model.json.JSONModel"
+      },
+      "clicksModel": {
+        "type": "sap.ui.model.json.JSONModel"
+      },
+      "flightDetailsModel": {
+        "type": "sap.ui.model.json.JSONModel"
+      },
+      "viewModel": {
+        "type": "sap.ui.model.json.JSONModel"
+      },
+      "statusModel": {
+        "type": "sap.ui.model.json.JSONModel"
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "async": true,
+        "viewPath": "project1.view",
+        "controlAggregation": "pages",
+        "controlId": "app",
+        "clearControlAggregation": false
+      },
+      "routes": [
+        {
+          "name": "RoutemyApp",
+          "pattern": "",
+          "target": [
+            "TargetmyApp"
+          ]
+        },
+        {
+          "name": "routeForDetails",
+          "pattern": "flightDetails/{carrid}/{connid}/{fldate}",
+          "target": [
+            "TargetFlightDetails"
+          ]
+        },
+        {
+          "name": "graphFlights",
+          "pattern": "graphFlights",
+          "target": [
+            "graphFlights"
+          ]
+        }
+      ],
+      "targets": {
+        "TargetmyApp": {
+          "viewType": "XML",
+          "transition": "slide",
+          "viewId": "piTest",
+          "viewName": "piTest"
+        },
+        "TargetFlightDetails": {
+          "viewType": "XML",
+          "transition": "slide",
+          "viewId": "flightDetails",
+          "viewName": "flightDetails"
+        },
+        "graphFlights": {
+          "viewType": "XML",
+          "transition": "slide",
+          "viewId": "HeatMap",
+          "viewName": "HeatMap"
+        }
+      }
+    },
+    "rootView": {
+      "viewName": "project1.view.App",
+      "type": "XML",
+      "async": true,
+      "id": "App"
+    }
+  }
+}
